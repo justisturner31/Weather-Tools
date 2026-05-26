@@ -352,6 +352,11 @@ h1{font-family:'Nunito','-apple-system',BlinkMacSystemFont,sans-serif;font-size:
     }
   }
   document.addEventListener('DOMContentLoaded', async () => {
+    // v3.0t: Set version display from APP_VERSION constant
+    try {
+      const verEl = document.getElementById('app-version-display');
+      if(verEl && window.APP_VERSION) verEl.textContent = window.APP_VERSION;
+    } catch(e){}
     const result = await probeCORS();
     if (!result.ok) {
       showBanner(result.reason);
@@ -373,7 +378,7 @@ h1{font-family:'Nunito','-apple-system',BlinkMacSystemFont,sans-serif;font-size:
 </script>
 
 <div class="hdr">
-  <h1>WEATHER TOOL v2.23</h1>
+  <h1>WEATHER TOOL <span id="app-version-display">v3.0t</span></h1>
   <p>5 STATIONS · KLAS/KLAX/KPHX/KMIA/KPHL · NOAA-truth fitted</p>
 </div>
 
@@ -990,6 +995,12 @@ const STATIONS = {
 };
 const ZONE='S-TIER';
 const STATION_ORDER=['KLAS','KLAX','KPHX','KMIA','KPHL'];
+
+// Tool version. Bump on every release.
+const APP_VERSION = 'v3.0t';
+const APP_VERSION_NOTES = 'climate normals overlay + regime detector + Win P calibration histogram';
+window.APP_VERSION = APP_VERSION;
+window.APP_VERSION_NOTES = APP_VERSION_NOTES;
 
 const CLIM_NORMALS = {
   KLAS: {
@@ -6883,7 +6894,7 @@ function TerminalTracker({ tweaks }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
           <span style={{ color: accent, fontWeight: 600 }}>▌</span>
           <span style={{ fontSize: 14.5, fontWeight: 600, letterSpacing: '0.02em' }}>
-            WEATHER TRACKER AND TOOL · v2.17
+            WEATHER TRACKER AND TOOL · {window.APP_VERSION || 'v3.0t'}
           </span>
           <span style={{ color: dim }}>·</span>
           <span style={{ color: dim, fontSize: 12.5 }}>
